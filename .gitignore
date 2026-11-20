@@ -1,0 +1,19 @@
+# Local ChatGPT project mirror content
+/sources/
+/AGENTS.md
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated development artifacts
+node_modules/
+dist/
+target/
+.turbo/
+*.sqlite
+*.sqlite-*
+*.db

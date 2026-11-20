@@ -1,0 +1,28 @@
+{
+  "name": "nexmail",
+  "private": true,
+  "packageManager": "pnpm@12.21.0",
+  "engines": {
+    "node": ">=22.22.3 <23"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:api": "pnpm --filter @nexmail/api dev",
+    "dev:desktop": "pnpm --filter @nexmail/desktop tauri:dev",
+    "dev:worker": "pnpm --filter @nexmail/worker dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,yml,yaml,css,html}\" \"!pnpm-lock.yaml\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

@@ -3,7 +3,7 @@
 **Purpose:** Resume development without depending on chat history. This document records the project baseline, complete planned feature set, backend and frontend responsibilities, delivery order, and completion criteria.
 
 **Last reviewed:** 2026-11-20  
-**Project status:** Architecture selected; implementation has not started. No application source code, backend, frontend, tests, build system, or deployment setup exists in this workspace yet. All product capabilities below are **Planned**, not completed.
+**Project status:** Milestone 1 foundation is in progress. The pnpm/Turborepo workspace, React/Tauri web shell, shared health contract, NestJS API, BullMQ worker process, PostgreSQL/Valkey Compose definition, and Prisma schema have been scaffolded. Dependency installation, formatting, lint, TypeScript checks, and workspace builds pass locally. Product mail workflows and provider integrations remain **Planned**.
 
 ## 1. Read this first
 
@@ -24,16 +24,19 @@
 - The original visual direction is defined in `BRAND_GUIDE.md`: Material-inspired design principles, with a distinct Nexmail deep-teal/ink/warm-neutral identity.
 - Project development rules, goal-based prompts, focused agent skills, and `.ai/` handoff files have been created to make staged full-stack work repeatable.
 - This continuity document records the full planned feature map and delivery sequence.
+- Started the implementation in the WSL Git checkout at `/home/pexter/projects/nexmail`: workspace/package boundaries, React desktop shell, typed API health contract, NestJS API health route, queue worker process, PostgreSQL/Valkey local Compose services, Prisma data model, and initial CI workflow are present.
+- Added [DEV_SETUP.md](DEV_SETUP.md) and `.env.example`; local environment secrets are ignored by Git. The desktop health screen is connected to the shared health response schema.
 
-### Not started
+### In progress / not verified
 
-- The selected foundation has not yet been created. The source workspace still has no Git repository or application code. OAuth registrations, deployment secrets, SMTP configuration, signing credentials, and actual hostnames require owner-controlled provisioning before the corresponding integration/release milestones.
-- No product code, UI, database, provider integration, API, automated checks, CI, credentials, app registrations, or deployed service exists.
-- No requirement is implemented or verified.
+- GitHub Actions has not run yet. Rust/Cargo and Docker are unavailable in the current WSL execution context, so native Tauri packaging and local container startup are not verified.
+- The API health route and worker are infrastructure scaffolds. There is no authentication, mailbox workflow, provider adapter, job handler, fake provider, local encrypted SQLite store, credential-vault adapter, or production database migration yet.
+- CI configuration exists but has not run. No feature is considered Done until its code and verification evidence are recorded.
+- OAuth registrations, deployment secrets, SMTP configuration, signing credentials, and actual hostnames require owner-controlled provisioning before their integration/release milestones.
 
 ### Immediate next action
 
-Start **Milestone 1: scaffold and vertical contracts** below, following `PROJECT_RULES.md` and the applicable skill in `skills/`. Build the selected monorepo and local services. Strategic product and architecture choices are accepted; verify provider capabilities and complete owner-controlled provisioning before connecting real accounts. Do not represent planned architecture or features as shipped behavior.
+Continue **Milestone 1: scaffold and vertical contracts** below, following `PROJECT_RULES.md` and the applicable skill in `skills/`. Create a reviewed initial migration, add the fake-provider and encrypted local persistence foundations, and ensure the GitHub Actions workflow passes. Then advance to the first complete Gmail read-only slice. Strategic product and architecture choices are accepted; verify provider capabilities and complete owner-controlled provisioning before connecting real accounts. Do not represent planned architecture or features as shipped behavior.
 
 ## 3. Product scope and architecture boundary
 

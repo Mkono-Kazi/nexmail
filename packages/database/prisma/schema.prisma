@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ProviderType {
+  GMAIL
+  MICROSOFT_GRAPH
+  IMAP_SMTP
+}
+
+enum AccountStatus {
+  ACTIVE
+  REAUTH_REQUIRED
+  DISCONNECTED
+}
+
+enum OperationStatus {
+  PENDING
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  RECONCILIATION_REQUIRED
+}
+
+model User {
+  id           String           @id @default(uuid()) @db.Uuid
+  email        String           @unique @db.VarChar(320)
+  passwordHash String           @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime         @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime         @updatedAt @map("updated_at") @db.Timestamptz(6)
+  devices      Device[]
+  accounts     ProviderAccount[]
+
+  @@map("users")
+}
+
+model Device {
+  id          String    @id @default(uuid()) @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  name        String    @db.VarChar(120)
+  refreshHash String    @map("refresh_hash") @db.VarChar(255)
+  lastSeenAt  DateTime? @map("last_seen_at") @db.Timestamptz(6)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("devices")
+}
+
+model ProviderAccount {
+  id                  String          @id @default(uuid()) @db.Uuid
+  userId              String          @map("user_id") @db.Uuid
+  provider            ProviderType
+  providerAccountId   String          @map("provider_account_id") @db.VarChar(320)
+  email               String          @db.VarChar(320)
+  status              AccountStatus   @default(ACTIVE)
+  encryptedCredential Bytes           @map("encrypted_credential")
+  credentialKeyId     String          @map("credential_key_id") @db.VarChar(120)
+  createdAt           DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt           DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user                User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cursors             SyncCursor[]
+  operations          DurableOperation[]
+
+  @@unique([userId, provider, providerAccountId])
+  @@index([userId, status])
+  @@map("provider_accounts")
+}
+
+model SyncCursor {
+  id         String          @id @default(uuid()) @db.Uuid
+  userId     String          @map("user_id") @db.Uuid
+  accountId  String          @map("account_id") @db.Uuid
+  mailboxKey String          @map("mailbox_key") @db.VarChar(320)
+  cursor     String?         @db.Text
+  updatedAt  DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  account    ProviderAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, mailboxKey])
+  @@index([userId])
+  @@map("sync_cursors")
+}
+
+model DurableOperation {
+  id             String          @id @default(uuid()) @db.Uuid
+  userId         String          @map("user_id") @db.Uuid
+  accountId      String          @map("account_id") @db.Uuid
+  idempotencyKey String          @map("idempotency_key") @db.VarChar(160)
+  operationType  String          @map("operation_type") @db.VarChar(80)
+  status         OperationStatus @default(PENDING)
+  payload        Json
+  attempts       Int             @default(0)
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime        @updatedAt @map("updated_at") @db.Timestamptz(6)
+  account        ProviderAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@unique([accountId, idempotencyKey])
+  @@index([userId, status, createdAt])
+  @@map("durable_operations")
+}

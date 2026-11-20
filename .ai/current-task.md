@@ -1,7 +1,7 @@
 # Current task
 
-Status: done
-Goal: Close the remaining first-release product and architecture decisions for Nexmail and synchronize project guidance.
+Status: in progress
+Goal: Build the first runnable Nexmail foundation in the WSL checkout: monorepo workspace, desktop shell, API/worker, shared contracts, database/queue development services, and CI baseline.
 
 ## Checklist
 
@@ -9,11 +9,16 @@ Goal: Close the remaining first-release product and architecture decisions for N
 - [x] Write project-wide completion and engineering rules.
 - [x] Create reusable project, feature, provider, milestone, and completion-audit goal prompts.
 - [x] Create focused workflows for feature development, provider integration, and hybrid sync.
-- [x] Resolve OS targets, auth, provider scope, data handling, self-hosting, license, telemetry, release scope, verification, audience, performance, accessibility, localization, and economics.
-- [x] Establish a Nexmail brand direction and add the brand guide to project rules, UX guidance, prompts, and indexes.
-- [x] Verify indexes and internal links.
-- [x] Update handoff and set the next action to the engineering foundation scaffold.
+- [x] Resolve OS targets, auth, provider scope, data handling, self-hosting, license, telemetry, release scope, verification, audience, performance, accessibility, localization, economics, and brand direction.
+- [x] Create and push the documentation repository to Mkono-Kazi/nexmail.
+- [x] Move the Git checkout to `/home/pexter/projects/nexmail` in WSL.
+- [x] Scaffold the pnpm/Turborepo workspace and configure shared TypeScript/package boundaries.
+- [x] Add the Tauri/React desktop shell and brand-aligned baseline.
+- [x] Add NestJS API health endpoint and separate BullMQ worker process with shared response contracts.
+- [x] Add PostgreSQL/Valkey local service definitions and initial Prisma schema.
+- [x] Add baseline CI workflow and verify dependency installation, formatting, lint, typecheck, and workspace builds locally.
+- [ ] Add reviewed Prisma migration, encrypted SQLite storage, secure credential-vault adapter, provider interface, fake provider, and CI platform builds.
 
 ## Next
 
-Scaffold the pnpm/Turborepo monorepo, Docker Compose services, NestJS API/worker, shared TypeScript contracts, PostgreSQL schema/migration, and minimal Tauri/React desktop shell.
+Continue Milestone 1 with a reviewed initial Prisma migration, encrypted SQLite storage, secure credential-vault adapter, provider interface, fake provider, and CI platform builds. Local formatting, lint, typecheck, and workspace builds pass. pnpm 12.21.0 is active. Rust/Cargo and Docker are unavailable in this WSL execution context, so native Tauri and container startup cannot be checked here yet.

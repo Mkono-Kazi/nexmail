@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Nexmail",
+  "version": "0.1.0",
+  "identifier": "com.mkono-kazi.nexmail",
+  "build": {
+    "beforeDevCommand": "pnpm --filter @nexmail/desktop dev",
+    "beforeBuildCommand": "pnpm --filter @nexmail/desktop build",
+    "devUrl": "http://localhost:5173",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Nexmail",
+        "width": 1320,
+        "height": 860,
+        "minWidth": 900,
+        "minHeight": 640
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src ipc: http://ipc.localhost http://127.0.0.1:3000 http://localhost:3000; img-src 'self' asset: http://asset.localhost data:; style-src 'self' 'unsafe-inline'"
+    }
+  },
+  "bundle": {
+    "active": false
+  }
+}
